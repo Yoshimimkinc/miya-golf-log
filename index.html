@@ -38,6 +38,7 @@
   <button class="btn" onclick="startRound()">スコア入力へ →</button>
 </section>
 <section id="play" class="screen">
+  <div class="head" style="margin-top:0"><button class="back" onclick="abortRound()">←</button><div class="h1">ラウンド中</div></div>
   <div class="mantra"><div class="label">Today's Mantra</div><div id="mantraNow" class="t">--</div></div>
   <div class="holebar"><div><div class="label">HOLE</div><div id="holeNo" class="holeNo">1</div></div><div style="text-align:right"><div id="holePar" class="par">Par 4</div><div id="side" class="small">OUT</div></div></div>
   <div id="prog" class="progress"></div>
@@ -80,6 +81,7 @@ function renderMantra(){$('mantraNow').textContent=mantras[mi]||'--'}
 function scoreLabel(r){if(r<=-2)return'EAGLE 🦅';if(r==-1)return'BIRDIE 🐦';if(r==0)return'PAR';if(r==1)return'BOGEY';if(r==2)return'DOUBLE';return'TRIPLE+'}
 function renderHole(){const h=holes[hole];renderMantra();$('holeNo').textContent=hole+1;$('holePar').textContent='Par '+PARS[hole];$('side').textContent=hole<9?'OUT':'IN';$('prog').innerHTML=Array.from({length:18},(_,i)=>`<div class="seg ${i<hole?'done':i==hole?'now':''}"></div>`).join('');$('scoreName').textContent=scoreLabel(h.rel);$('scoreRel').textContent=h.rel==0?'±0':(h.rel>0?'+'+h.rel:h.rel);$('putts').textContent=h.putts;$('ob').textContent=h.ob;$('pen').textContent=h.pen;$('nextBtn').textContent=hole==17?'ラウンド完了 ✓':'次へ →'}
 function chgScore(d){holes[hole].rel=Math.max(-4,Math.min(6,holes[hole].rel+d));renderHole()}function chg(k,d){holes[hole][k]=Math.max(0,Math.min(k==='putts'?5:9,holes[hole][k]+d));renderHole()}function prevHole(){if(hole>0){hole--;renderHole()}}function nextHole(){if(hole<17){hole++;renderHole()}else{finish()}}
+function abortRound(){if(confirm('ラウンド入力を中断して戻りますか？\n（現在の入力は保存されません）')){clearInterval(timer);show('start')}}
 function finish(){clearInterval(timer);const t=totals();$('outT').textContent=t.out;$('inT').textContent=t.in;$('grossT').textContent=t.gross;$('doneSub').textContent=`${round.course} / ${round.layout} / PAR ${round.parTotal}`;$('scoreCard').innerHTML=scoreTable();show('done')}
 function totals(){let out=0,inn=0,putts=0,ob=0,pen=0;holes.forEach((h,i)=>{const s=PARS[i]+h.rel;if(i<9)out+=s;else inn+=s;putts+=h.putts;ob+=h.ob;pen+=h.pen});return{out,in:inn,gross:out+inn,putts,ob,pen}}
 function scoreTable(){let html='<table class="table"><tr><th>H</th>';for(let i=1;i<=18;i++)html+=`<th>${i}</th>`;html+='</tr><tr><th>Par</th>';PARS.forEach(p=>html+=`<td>${p}</td>`);html+='</tr><tr><th>Score</th>';holes.forEach((h,i)=>{let c=h.rel<0?'u':h.rel>1?'d':h.rel>0?'o':'';html+=`<td class="${c}">${PARS[i]+h.rel}</td>`});html+='</tr></table>';return html}
