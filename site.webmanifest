@@ -1,0 +1,17 @@
+{
+  "name": "Miya Golf Log",
+  "short_name": "Miya Golf",
+  "description": "Golf score and strategy log for iPhone",
+  "start_url": "./?v=9",
+  "display": "standalone",
+  "background_color": "#f5f7f5",
+  "theme_color": "#16733a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
