@@ -1,14 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <rect width="512" height="512" rx="112" fill="#f7f9f7"/>
   <circle cx="256" cy="256" r="216" fill="#16733a"/>
-  <path d="M112 338
-           C148 248 196 180 219 180
-           C240 180 233 212 212 233
-           C248 191 281 176 294 192
-           C305 205 291 243 275 280
-           C305 224 338 198 352 211
-           C364 223 352 264 336 304
-           C328 324 334 338 350 336
-           C370 333 388 312 398 288"
-        fill="none" stroke="#ffffff" stroke-width="29" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M138 216
+           C134 258 132 300 134 340
+           C136 300 148 250 170 230
+           C190 212 206 218 208 242
+           C209 272 204 308 202 340
+           C206 300 220 252 242 232
+           C262 214 278 220 280 244
+           C281 274 276 308 274 340
+           C286 338 300 328 312 310
+           C322 295 330 278 334 262"
+        fill="none" stroke="#ffffff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
