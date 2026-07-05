@@ -16,7 +16,7 @@
 <body>
 <div class="app">
 <section id="home" class="screen active">
-  <div style="padding-top:34px"><div class="label">Golf Log</div><div class="title">MIYA <span style="color:var(--main)">GOLF</span></div></div>
+  <div><div class="label">Golf Log</div><div class="title">MIYA <span style="color:var(--main)">GOLF</span></div></div>
   <div id="draftBox"></div>
   <div class="statRow"><div class="card"><div class="k">ベスト</div><div id="best" class="v">--</div><div id="bestSub" class="small clamp1">まだ記録なし</div></div><div class="card"><div class="k">直近5回平均</div><div id="avg5" class="v">--</div><div class="small clamp1">保存履歴から</div></div><div class="card"><div class="k">今月ラウンド</div><div id="monthCount" class="v">0</div><div id="monthSub" class="small clamp1">--</div></div></div>
   <div class="card"><div class="k">ラウンド履歴</div><div id="recent"></div></div>
@@ -25,7 +25,7 @@
   <button class="btn secondary" onclick="openDataMenu()">⋯ データ・バックアップ</button>
   <input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)">
   <button class="btn warn" onclick="hardUpdate()">🔄 最新版に更新</button>
-  <div class="version">Miya Golf Log v3.1</div>
+  <div class="version">Miya Golf Log v3.2</div>
 </section>
 <div id="dataModal" class="modal" onclick="if(event.target===this)closeDataMenu()">
   <div class="sheet">
