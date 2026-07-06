@@ -20,13 +20,13 @@
   <div id="draftBox"></div>
   <div class="statRow"><button class="card statBtn" onclick="openBestRound()"><div class="k">ベスト ›</div><div id="best" class="v">--</div><div id="bestSub" class="small clamp1">まだ記録なし</div></button><button class="card statBtn" onclick="showStats('avg')"><div class="k" id="avgLabel">直近5回平均 ›</div><div id="avg5" class="v">--</div><div class="small clamp1">保存履歴から</div></button><button class="card statBtn" onclick="showStats('month')"><div class="k">今月ラウンド ›</div><div id="monthCount" class="v">0</div><div id="monthSub" class="small clamp1">--</div></button></div>
   <div class="card"><div class="k">ラウンド履歴</div><div id="recent"></div></div>
-  <button class="btn" onclick="newRound(false)">⛳ ライブ入力で始める</button>
-  <button class="btn secondary" onclick="newRound(true)">📝 ラウンド後にまとめて記録する</button>
+  <button class="btn" onclick="newRound()">⛳ ラウンドを記録する</button>
+  
   <button class="btn secondary" onclick="openDataMenu()">⋯ データ管理</button>
   <input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)"><input id="importMdFile" type="file" accept=".md,text/markdown,text/plain" multiple style="display:none" onchange="importMd(event)"><input id="photoFile" type="file" accept="image/*" style="display:none" onchange="photoSelected(event)">
 <div id="photoModal" class="modal" style="align-items:center;padding:16px" onclick="this.classList.remove('show')"><img id="photoBig" alt="スコアカード拡大" style="max-width:100%;max-height:88vh;margin:auto;border-radius:14px;box-shadow:0 4px 30px rgba(0,0,0,.4)"></div>
   <button class="btn warn" onclick="hardUpdate()">🔄 最新版に更新</button>
-  <div class="version">miyaGolf v4.9</div>
+  <div class="version">miyaGolf v5.0</div>
 </section>
 <div id="dataModal" class="modal" onclick="if(event.target===this)closeDataMenu()">
   <div class="sheet">
@@ -76,7 +76,7 @@ function clearDraft(){localStorage.removeItem('miyaGolfDraft')}function restoreD
 async function hardUpdate(){if(dirty)saveDraft();toast('最新版を読み込みます');try{if('caches' in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)))}}catch(e){}setTimeout(()=>{location.replace(location.origin+location.pathname+'?v='+Date.now())},500)}
 function fillCourses(){const c=$('course');c.innerHTML=Object.keys(COURSE_MASTER).map(x=>`<option>${x}</option>`).join('');fillLayouts()}function fillLayouts(){const m=COURSE_MASTER[$('course').value],l=$('layout');l.innerHTML=Object.keys(m.layouts).map(x=>`<option>${x}</option>`).join('');previewPar()}function currentPars(){const m=COURSE_MASTER[$('course').value],pair=m.layouts[$('layout').value];return [...m.courses[pair[0]],...m.courses[pair[1]]]}function previewPar(){const p=currentPars(),o=sum(p.slice(0,9)),i=sum(p.slice(9));$('parPreview').textContent=`OUT ${o} / IN ${i} / TOTAL ${o+i}`}
 function renderChips(){const lines=$('mantraText').value.split('\n').map(s=>s.trim()).filter(Boolean);localStorage.miyaGolfMantras=lines.join('\n');$('chips').innerHTML=lines.map((s,i)=>`<button class="chip ${i<3?'on':''}" onclick="this.classList.toggle('on')">${esc(s)}</button>`).join('')}function resetMantras(){$('mantraText').value=BASE_MANTRAS.join('\n');renderChips()}
-function setupStart(){editId=null;dirty=false;$('rDate').value=localDateStr();fillCourses();$('partners').value='';$('mantraText').value=localStorage.miyaGolfMantras||BASE_MANTRAS.join('\n');renderChips()}function newRound(toBulk){setupStart();show('start');if(toBulk)toast('基本情報後に一括入力へ進んでください')}
+function setupStart(){editId=null;dirty=false;$('rDate').value=localDateStr();fillCourses();$('partners').value='';$('mantraText').value=localStorage.miyaGolfMantras||BASE_MANTRAS.join('\n');renderChips()}function newRound(){setupStart();show('start')}
 function startRound(toBulk){PARS=currentPars();holes=mkH();hole=0;mantras=[...document.querySelectorAll('#chips .chip.on')].map(x=>x.textContent.trim());if(!mantras.length)mantras=['力まない'];round={inputMode:'hybrid',date:$('rDate').value,course:$('course').value,layout:$('layout').value,partners:$('partners').value,parTotal:sum(PARS),mantras,events:[],review:{good:'',bad:'',next:''}};clearInterval(timer);mi=0;timer=setInterval(()=>{mi=(mi+1)%mantras.length;renderMantra()},5000);dirty=true;renderHole();saveDraft();toBulk?goBulk():show('play')}
 function loadRoundForEdit(id){const r=getHistory().find(x=>x.id===id);if(!r)return toast('ラウンドが見つかりません');editId=id;round=JSON.parse(JSON.stringify(r));PARS=parFromRound(round);holes=(round.holes||mkH()).map(ensureH);hole=0;mantras=round.mantras||[];$('memo').value=round.memo||'';dirty=false;saveDraft();renderBulk();show('bulk');toast('編集モードです')}
 function renderMantra(){$('mantraNow').textContent=mantras[mi]||'--'}function scoreLabel(r){if(r===null||r===undefined)return'未入力';if(r<=-2)return'EAGLE 🦅';if(r==-1)return'BIRDIE 🐦';if(r==0)return'PAR';if(r==1)return'BOGEY';if(r==2)return'DOUBLE';return'TRIPLE+'}
