@@ -1,6 +1,6 @@
 {
-  "name": "Miya Golf Log",
-  "short_name": "Miya Golf",
+  "name": "miyaGolf",
+  "short_name": "miyaGolf",
   "description": "Golf score and strategy log for iPhone",
   "start_url": "./?v=10",
   "display": "standalone",
