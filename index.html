@@ -20,10 +20,10 @@
 .screen.active>*{animation:rise .34s cubic-bezier(.2,.8,.3,1) both;animation-delay:.18s}
 .screen.active>*:nth-child(1){animation-delay:0s}.screen.active>*:nth-child(2){animation-delay:.04s}.screen.active>*:nth-child(3){animation-delay:.08s}.screen.active>*:nth-child(4){animation-delay:.11s}.screen.active>*:nth-child(5){animation-delay:.14s}.screen.active>*:nth-child(6){animation-delay:.16s}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-::view-transition-old(root){animation:vtOut .26s cubic-bezier(.2,.8,.3,1) both}
-::view-transition-new(root){animation:vtIn .34s cubic-bezier(.2,.8,.3,1) both}
-@keyframes vtOut{to{opacity:0;transform:scale(.985) translateY(-8px)}}
-@keyframes vtIn{from{opacity:0;transform:scale(1.012) translateY(12px)}to{opacity:1;transform:none}}
+::view-transition-old(root){animation:vtOut .2s ease-out both}
+::view-transition-new(root){animation:vtIn .26s ease-out both}
+@keyframes vtOut{to{opacity:0}}
+@keyframes vtIn{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
 .homeFixed{backdrop-filter:blur(12px) saturate(1.5);-webkit-backdrop-filter:blur(12px) saturate(1.5);background:rgba(255,255,255,.72)}
 .toast{background:rgba(20,36,20,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:translateX(-50%) translateY(8px)}.toast.show{transform:translateX(-50%) translateY(0)}
@@ -43,7 +43,7 @@
   <input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)"><input id="importMdFile" type="file" accept=".md,text/markdown,text/plain" multiple style="display:none" onchange="importMd(event)">
 <div id="photoModal" class="modal" style="align-items:center;padding:16px" onclick="this.classList.remove('show')"><img id="photoBig" alt="スコアカード拡大" style="max-width:100%;max-height:88vh;margin:auto;border-radius:14px;box-shadow:0 4px 30px rgba(0,0,0,.4)"></div>
   <button class="btn secondary" onclick="hardUpdate()">最新版に更新</button>
-  <div class="version">miyaGolf v6.0</div>
+  <div class="version">miyaGolf v6.1</div>
 </section>
 <div id="dataModal" class="modal" onclick="if(event.target===this)closeDataMenu()">
   <div class="sheet">
