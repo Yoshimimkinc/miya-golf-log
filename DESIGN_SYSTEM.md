@@ -104,7 +104,7 @@
 | レシピ | 対象 | 実装値 |
 |---|---|---|
 | プレスフィードバック | タップできるもの全部（`.btn` `.qbtn` `.chip` `.histCard` `.miniRound` `.statBtn` `.back` `.menuMini` `.delBtn` 等） | `transition: transform .16s cubic-bezier(.2,.8,.3,1)` ＋ `:active { transform: scale(.965) }`。グリッド内の小ボタン（`.qbtn`）だけ深めの `scale(.93)` |
-| 入場スタッガー | `.screen.active` の直下子要素 | `@keyframes rise`（`translateY(10px)`＋フェード→定位置、`.34s both`）。delay は `0 / .04 / .08 / .11 / .14 / .16s`、7個目以降は一律 `.18s` |
+| 入場スタッガー | `.screen.active` の直下子要素（**sticky要素は除外** — sticky+transformはガタつくため） | `@keyframes rise`（`translateY(10px)`＋フェード→定位置、`.34s both`）。delay は `0 / .04 / .08 / .11 / .14 / .16s`、7個目以降は一律 `.18s` |
 | ガラス素材（frosted glass） | 浮遊バー・浮遊ボタン（`.nav` `.homeFixed`） | 背景 `rgba(255,255,255,.68〜.72)` ＋ `backdrop-filter: blur(12〜14px) saturate(1.5)`（`-webkit-` 併記必須）＋ 枠 `rgba(20,36,20,.07)` ＋ `border-radius:999px` ＋ 影 `0 10px 28px rgba(20,36,20,.14)` |
 | ガラストースト | `.toast` | 背景 `rgba(20,36,20,.88)`＋`blur(8px)`。表示時に下から8pxスライドイン |
 | 見出しの字詰め | 大きな表示文字 | 25px級の数字は `letter-spacing:-.01em`、37px以上の見出し・ホール番号は `-.02em` |
