@@ -56,6 +56,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### IN→OUT レイアウトのホール番号
 `isInOutLayout()` が `layout` に `'IN→OUT'` を含むか判定し、`displayHoleNo()` が表示番号をずらす（後半を1〜9、前半を10〜18と表示）。`displaySideName()` がセクション名を返す。番号・セクション表示まわりを触る時に注意。
+加えて `perNine()`：9ホールに固有名が付くコース（リバー富士の富士/甲斐/駿河、富嶽の白鳥/宝永など、名前にOUT/INを含まないもの）は各9ホールを1〜9で表示し、`holeLabel()` が「甲斐7」形式のラベルを返す（OUT/IN構成コースは従来どおり「H14」）。事件簿・MD出力・インポートもこのラベル形式に対応。
 
 ### 出力・インポート
 - **Markdown**（`md()`）：YAML frontmatter（`type: golf_round` ＋ gir_pct・avg_putt・スコア内訳などDataview用数値）＋ JLPGA形式スコアカード（9ホール横並び×2表、記号付き）＋事件簿・振り返り。Obsidian 取り込み前提。ファイル名は `yyyymmdd_コース名_グロス.md`（`mdFileName()`）。
