@@ -43,7 +43,7 @@
   <input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)"><input id="importMdFile" type="file" accept=".md,text/markdown,text/plain" multiple style="display:none" onchange="importMd(event)"><input id="sharePhoto" type="file" accept="image/*" style="display:none">
 <div id="photoModal" class="modal" style="align-items:center;padding:16px" onclick="this.classList.remove('show')"><img id="photoBig" alt="スコアカード拡大" style="max-width:100%;max-height:88vh;margin:auto;border-radius:14px;box-shadow:0 4px 30px rgba(0,0,0,.4)"></div>
   <button class="btn secondary" onclick="hardUpdate()">最新版に更新</button>
-  <div class="version">miyaGolf v6.6</div>
+  <div class="version">miyaGolf v6.7</div>
 </section>
 <div id="dataModal" class="modal" onclick="if(event.target===this)closeDataMenu()">
   <div class="sheet">
@@ -170,7 +170,7 @@ const mark=(x,y,rel,sc)=>{const cx=x+cellW/2,cy=y+40;g.lineWidth=5;g.textAlign='
 for(let n=0;n<2;n++){const y=rowY[n];g.fillStyle='rgba(255,255,255,.65)';g.font='900 24px '+FF;const nm=displaySideName(n*9,r)||(n?'IN':'OUT');g.fillText(nm,64,y-14);const sub=n?t.in:t.out;if(sub!=null){g.textAlign='right';g.fillText(String(sub),W-64,y-14);g.textAlign='left'}
  for(let j=0;j<9;j++){const i=n*9+j,h=hs[i];const x=64+j*cellW;g.fillStyle='rgba(255,255,255,.5)';g.font='800 22px '+FF;g.textAlign='center';g.fillText(String(displayHoleNo(i,r)),x+cellW/2,y+8);g.textAlign='left';mark(x,y+28,h.entered?h.rel:null,h.entered?(pars[i]||0)+h.rel:'')}}
 g.fillStyle='rgba(255,255,255,.85)';g.font='800 30px '+FF;const stLine=[st.girPct!=null?`パーオン率 ${st.girPct}%`:null,st.avgPutt!=null?`平均パット ${st.avgPutt.toFixed(1)}`:null,st.cnt.birdie?`バーディ ${st.cnt.birdie}`:null].filter(Boolean).join('   ');g.fillText(stLine,64,1010);
-g.fillStyle='#ffd88a';g.font='900 34px '+FF;g.textAlign='right';g.fillText('miyaGolf',W-64,1010);g.textAlign='left';
+
 cv.toBlob(async b=>{if(!b)return toast('画像生成に失敗しました');const file=new File([b],`miyaGolf-${r.date||'round'}.jpg`,{type:'image/jpeg'});try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'miyaGolf'});return}}catch(e){if(e&&e.name==='AbortError')return}const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=file.name;a.click();toast('シェア画像を保存しました')},'image/jpeg',.92)}
 function openBestRound(){const a=getHistory().filter(r=>r.totals&&r.totals.gross);if(!a.length)return toast('完了ラウンドがまだありません');const best=a.reduce((x,y)=>x.totals.gross<=y.totals.gross?x:y);showRoundSummary(best.id)}
 function roundsTable(list){if(!list.length)return'<div class="small">ラウンドがありません</div>';return`<div class="tablewrap"><table class="table jt"><tr><th style="text-align:left;padding-left:8px">コース</th><th>日付</th><th>G</th><th>OUT</th><th>IN</th><th>Putt</th></tr>${list.map(r=>`<tr onclick="showRoundSummary('${r.id}')"><td class="jtc">${esc(r.course)}</td><td>${esc((r.date||'').slice(5))}</td><td class="jtg">${r.totals?.gross??'-'}</td><td>${r.totals?.out??'-'}</td><td>${r.totals?.in??'-'}</td><td>${r.totals?.putts??'-'}</td></tr>`).join('')}</table></div><div class="small" style="margin-top:4px">行をタップで詳細</div>`}
