@@ -43,7 +43,7 @@
   <input id="importFile" type="file" accept="application/json,.json" style="display:none" onchange="importBackup(event)"><input id="importMdFile" type="file" accept=".md,text/markdown,text/plain" multiple style="display:none" onchange="importMd(event)"><input id="sharePhoto" type="file" accept="image/*" style="display:none">
 <div id="photoModal" class="modal" style="align-items:center;padding:16px" onclick="this.classList.remove('show')"><img id="photoBig" alt="スコアカード拡大" style="max-width:100%;max-height:88vh;margin:auto;border-radius:14px;box-shadow:0 4px 30px rgba(0,0,0,.4)"></div>
   <button class="btn secondary" onclick="hardUpdate()">最新版に更新</button>
-  <div class="version">miyaGolf v6.7</div>
+  <div class="version">miyaGolf v6.8</div>
 </section>
 <div id="dataModal" class="modal" onclick="if(event.target===this)closeDataMenu()">
   <div class="sheet">
@@ -144,19 +144,19 @@ function renderNotes(){$('noteChips').innerHTML=NOTE_CHIPS.map(c=>`<button type=
 function noteEdit(i,v){holes[i]=ensureH(holes[i]);holes[i].note=String(v||'').slice(0,80);changed();saveDraft()}
 function noteChip(c){const i=noteFocus;holes[i]=ensureH(holes[i]);const h=holes[i];h.note=h.note?(h.note.includes(c)?h.note:h.note+'、'+c):c;h.note=h.note.slice(0,80);changed();saveDraft();const inp=document.querySelectorAll('#notesBody .noteRow input')[i];if(inp)inp.value=h.note;toast(`${holeLabel(i,round)} に「${c}」`)}
 function shareImage(id){const inp=$('sharePhoto');inp.value='';toast('写真を選ぶと背景に。キャンセルで標準デザイン');inp.onchange=()=>{const f=inp.files&&inp.files[0];if(!f)return buildShareImage(id,null);const img=new Image();const url=URL.createObjectURL(f);img.onload=()=>{buildShareImage(id,img);URL.revokeObjectURL(url)};img.onerror=()=>{URL.revokeObjectURL(url);buildShareImage(id,null)};img.src=url};inp.oncancel=()=>buildShareImage(id,null);inp.click()}
-async function buildShareImage(id,photo){const r=id?getHistory().find(x=>x.id===id):null;if(!r)return toast('ラウンドがありません');const pars=parFromRound(r),hs=(r.holes||mkH()).map(ensureH),t=r.totals||calcTotals(hs,pars);const st=roundStats(hs,pars);const W=1080,H=1080;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d');const FF='-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif';
+async function buildShareImage(id,photo){const r=id?getHistory().find(x=>x.id===id):null;if(!r)return toast('ラウンドがありません');const pars=parFromRound(r),hs=(r.holes||mkH()).map(ensureH),t=r.totals||calcTotals(hs,pars);const st=roundStats(hs,pars);const W=1080,H=1350;const cv=document.createElement('canvas');cv.width=W;cv.height=H;const g=cv.getContext('2d');const FF='-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif';
 if(photo){const sc=Math.max(W/photo.width,H/photo.height);const dw=photo.width*sc,dh=photo.height*sc;g.drawImage(photo,(W-dw)/2,(H-dh)/2,dw,dh);const ov=g.createLinearGradient(0,0,0,H);ov.addColorStop(0,'rgba(7,30,15,.66)');ov.addColorStop(.42,'rgba(7,30,15,.30)');ov.addColorStop(.62,'rgba(7,30,15,.42)');ov.addColorStop(1,'rgba(7,30,15,.78)');g.fillStyle=ov;g.fillRect(0,0,W,H);g.shadowColor='rgba(0,0,0,.5)';g.shadowBlur=10}else{const gr=g.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#0d5b2c');gr.addColorStop(.6,'#16733a');gr.addColorStop(1,'#1d8746');g.fillStyle=gr;g.fillRect(0,0,W,H);g.save();g.rotate(-25*Math.PI/180);g.fillStyle='rgba(255,255,255,.045)';for(let x=-W;x<W*2;x+=150)g.fillRect(x,-H,75,H*3);g.restore()}
 g.save();g.translate(W-190,44);g.scale(.24,.24);g.strokeStyle='#fff';g.lineCap='round';g.lineJoin='round';g.lineWidth=24;g.beginPath();g.arc(256,256,238,0,6.3);g.stroke();g.lineWidth=27;g.translate(28,4);g.stroke(new Path2D('M104 192C100 232 98 268 100 304C102 268 112 226 130 210C146 196 160 201 162 222C163 246 158 278 156 304C160 268 172 226 190 210C206 196 220 201 222 222C223 246 218 278 216 304'));g.stroke(new Path2D('M330 214C304 200 274 210 264 238C254 266 268 296 296 302C318 306 336 292 340 266C342 250 340 230 336 216C332 200 336 236 338 260C342 310 344 348 330 380C318 407 288 416 270 400C256 387 264 366 286 358C304 352 322 356 336 364'));g.restore();
 g.textBaseline='alphabetic';g.fillStyle='#bfe3cb';g.font='900 26px '+FF;g.save();g.translate(64,86);g.fillText('G O L F   L O G',0,0);g.restore();
 let cs=r.course||'';g.fillStyle='#fff';let fs=60;g.font='900 '+fs+'px '+FF;while(g.measureText(cs).width>W-320&&fs>30){fs-=3;g.font='900 '+fs+'px '+FF}g.fillText(cs,62,86+fs+16);
 g.fillStyle='rgba(255,255,255,.85)';g.font='800 32px '+FF;g.fillText(`${r.date||''}  ${r.layout||''}  ${(r.weather||[]).join(' ')}`,64,206);
-g.fillStyle='#ffd88a';g.font='900 40px '+FF;g.fillText('GROSS',64,330);
-g.fillStyle='#fff';g.font='900 210px '+FF;g.fillText(String(t.gross??'--'),64,505);
+g.fillStyle='#ffd88a';g.font='900 40px '+FF;g.fillText('GROSS',64,380);
+g.fillStyle='#fff';g.font='900 210px '+FF;g.fillText(String(t.gross??'--'),64,560);
 const gw=g.measureText(String(t.gross??'--')).width;
 g.fillStyle='rgba(255,255,255,.9)';g.font='900 40px '+FF;
-g.fillText(`OUT ${t.out??'-'}   IN ${t.in??'-'}`,110+gw,420);
-g.fillText(`PUTT ${t.putts??'-'}`,110+gw,480);
-const cellW=(W-128)/9,rowY=[600,810];
+g.fillText(`OUT ${t.out??'-'}   IN ${t.in??'-'}`,110+gw,472);
+g.fillText(`PUTT ${t.putts??'-'}`,110+gw,534);
+const cellW=(W-128)/9,rowY=[710,960];
 const mark=(x,y,rel,sc)=>{const cx=x+cellW/2,cy=y+40;g.lineWidth=5;g.textAlign='center';g.textBaseline='middle';
  if(rel==null){g.fillStyle='rgba(255,255,255,.4)';g.font='900 34px '+FF;g.fillText('-',cx,cy);g.textAlign='left';g.textBaseline='alphabetic';return}
  const red='#ff8189',blue='#8db8ff';
@@ -169,7 +169,7 @@ const mark=(x,y,rel,sc)=>{const cx=x+cellW/2,cy=y+40;g.lineWidth=5;g.textAlign='
  g.font='900 38px '+FF;g.fillText(String(sc),cx,cy+(rel===1?8:2));g.textAlign='left';g.textBaseline='alphabetic'};
 for(let n=0;n<2;n++){const y=rowY[n];g.fillStyle='rgba(255,255,255,.65)';g.font='900 24px '+FF;const nm=displaySideName(n*9,r)||(n?'IN':'OUT');g.fillText(nm,64,y-14);const sub=n?t.in:t.out;if(sub!=null){g.textAlign='right';g.fillText(String(sub),W-64,y-14);g.textAlign='left'}
  for(let j=0;j<9;j++){const i=n*9+j,h=hs[i];const x=64+j*cellW;g.fillStyle='rgba(255,255,255,.5)';g.font='800 22px '+FF;g.textAlign='center';g.fillText(String(displayHoleNo(i,r)),x+cellW/2,y+8);g.textAlign='left';mark(x,y+28,h.entered?h.rel:null,h.entered?(pars[i]||0)+h.rel:'')}}
-g.fillStyle='rgba(255,255,255,.85)';g.font='800 30px '+FF;const stLine=[st.girPct!=null?`パーオン率 ${st.girPct}%`:null,st.avgPutt!=null?`平均パット ${st.avgPutt.toFixed(1)}`:null,st.cnt.birdie?`バーディ ${st.cnt.birdie}`:null].filter(Boolean).join('   ');g.fillText(stLine,64,1010);
+g.fillStyle='rgba(255,255,255,.85)';g.font='800 30px '+FF;const stLine=[st.girPct!=null?`パーオン率 ${st.girPct}%`:null,st.avgPutt!=null?`平均パット ${st.avgPutt.toFixed(1)}`:null,st.cnt.birdie?`バーディ ${st.cnt.birdie}`:null].filter(Boolean).join('   ');g.fillText(stLine,64,1290);
 
 cv.toBlob(async b=>{if(!b)return toast('画像生成に失敗しました');const file=new File([b],`miyaGolf-${r.date||'round'}.jpg`,{type:'image/jpeg'});try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'miyaGolf'});return}}catch(e){if(e&&e.name==='AbortError')return}const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=file.name;a.click();toast('シェア画像を保存しました')},'image/jpeg',.92)}
 function openBestRound(){const a=getHistory().filter(r=>r.totals&&r.totals.gross);if(!a.length)return toast('完了ラウンドがまだありません');const best=a.reduce((x,y)=>x.totals.gross<=y.totals.gross?x:y);showRoundSummary(best.id)}
