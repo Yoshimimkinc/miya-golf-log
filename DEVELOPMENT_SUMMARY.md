@@ -182,6 +182,9 @@ Miya Golf Log は、ゴルフラウンドのスコア、出来事、反省、次
 - 甲斐ヒルズカントリー倶楽部
   - OUT
   - IN
+- SIAM CC BANGKOK
+  - OUT
+  - IN
 - その他 Par72
 
 ## 7. ホール別攻略メモ
