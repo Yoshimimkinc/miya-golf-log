@@ -46,6 +46,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `miyaGolfMantras`：ユーザー編集したマントラ一覧（改行区切り）。
 - `miyaGolfLastBackup`：最終バックアップ日時。未バックアップ検知の警告バナー（`bkWarn`）に使う。
 - `miyaGolfAvgWindow`：平均スタッツの集計範囲（`5` / `10` / `25` / `year`）。ホームのタイルとスタッツ画面が連動。
+- `miyaGolfTheme`：画面テーマ（`std` / `win95`）。データ管理の「画面テーマ」で切替。`body.win95` クラスでCSSオーバーライド。
 
 ### 後方互換の要：`ensureH()` と `normalizeRound()`
 - `ensureH()`：古い／不完全なホールオブジェクトの欠損フィールドを補完。**localStorage・インポートから読んだ hole は必ず `ensureH()` を通す**（データ構造を変える時はここを更新）。
