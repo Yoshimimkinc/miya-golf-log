@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## アーキテクチャ（big picture）
 
 ### 画面遷移
-8つの `<section class="screen">`（`home` / `start` / `play` / `bulk` / `done` / `summary` / `stats` / `manage`）を `show(id)` で切り替える SPA 風構成。実ルーティングはなく `active` クラスの付け替えだけ。
+10の `<section class="screen">`（`home` / `start` / `play` / `bulk` / `done` / `summary` / `stats` / `notes` / `manage` / `courses`）を `show(id)` で切り替える SPA 風構成。実ルーティングはなく `active` クラスの付け替えだけ。
 加えてボトムシート型モーダルが3つ：`dataModal`（データ管理）／`playModal`（プレー中メニュー）／`photoModal`（スコアカード写真拡大）。
 
 ### 2つの入力モードと統一データモデル
