@@ -110,7 +110,7 @@
 | ガラス素材（frosted glass） | 浮遊バー・浮遊ボタン（`.nav` `.homeFixed`） | 背景 `rgba(255,255,255,.68〜.72)` ＋ `backdrop-filter: blur(12〜14px) saturate(1.5)`（`-webkit-` 併記必須）＋ 枠 `rgba(20,36,20,.07)` ＋ `border-radius:999px` ＋ 影 `0 10px 28px rgba(20,36,20,.14)` |
 | ガラストースト | `.toast` | 背景 `rgba(20,36,20,.88)`＋`blur(8px)`。表示時に下から8pxスライドイン |
 | 見出しの字詰め | 大きな表示文字 | 25px級の数字は `letter-spacing:-.01em`、37px以上の見出し・ホール番号は `-.02em` |
-| 画面遷移 | `show(id)` | View Transitions API。クロスフェードのみ(.2s/.26s)。要素の動きは子スタッガーに一本化（二重モーション禁止）。非対応環境は即時切替 |
+| 画面遷移 | `show(id)` | View Transitions API。進む=右から／戻る=左からのスライド＋フェード(.22s/.26s、`SCREEN_DEPTH`で方向判定)。VT発動後は入場スタッガーを止めてスライドに一本化（二重モーション禁止）。非対応環境・Win95テーマは即時切替 |
 | モーション無効化 | 上記すべて | `@media(prefers-reduced-motion:reduce)` でアニメーション・スケールを必ず無効化する |
 
 運用ルール:
