@@ -33,7 +33,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   **重要：`rel` は「パー基準の相対スコア」**。実スコア = `PARS[i] + rel`。`entered` が false のホールは未入力扱い。
 - `round{}`：ラウンドのメタ情報（id / date / course / layout / partners / parTotal / pars / mantras / events / review / memo / photo / totals）。
   - **`round.pars`**：ラウンド自身が Par 構成を持つ（未登録コースの MD インポート対応）。Par の解決は `parFromRound()` を使う。
-  - **`round.photo`**：スコアカード写真（縮小圧縮した dataURL）。まるごとバックアップに含まれる。MD/CSV には含まれない。
+  - **`round.tee`**：ラウンドのティー（フルバック/バック/レギュラー/フロント/レディース）。`COURSE_MASTER[course].yards[tee][section]` にティー別ヤーデージがあるコース（現状仙台クラシックのみ）はプレー画面のホールバーに距離を表示（`holeYards()`）。MD frontmatter `tee:` で往復。
+- **`round.photo`**：スコアカード写真（縮小圧縮した dataURL）。まるごとバックアップに含まれる。MD/CSV には含まれない。
 - `PARS[]`：現在編集中の18ホールのパー配列（`currentPars()` / `parFromRound()`）。
 - `COURSE_MASTER`：コース定義マスタ。`{courses:{セクション名:[9つのパー]}, layouts:{表示名:[前半, 後半]}}`。コース追加はここを編集。
   登録済み：甲斐ヒルズ / 葛城 / 富嶽 / ホロン / リバー富士 / 菊川 / SIAM CC BANGKOK / 仙台クラシック / その他Par72。
