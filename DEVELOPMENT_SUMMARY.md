@@ -188,6 +188,9 @@ Miya Golf Log は、ゴルフラウンドのスコア、出来事、反省、次
 - 仙台クラシックゴルフ倶楽部
   - OUT
   - IN
+- SIAM CC PLANTATION
+  - TAPIOCA
+  - PINEAPPLE
 - その他 Par72
 
 ## 7. ホール別攻略メモ
