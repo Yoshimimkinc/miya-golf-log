@@ -191,6 +191,9 @@ Miya Golf Log は、ゴルフラウンドのスコア、出来事、反省、次
 - SIAM CC PLANTATION
   - TAPIOCA
   - PINEAPPLE
+- SIAM CC ROLLING HILLS
+  - OUT
+  - IN
 - その他 Par72
 
 ## 7. ホール別攻略メモ
