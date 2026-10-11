@@ -35,6 +35,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `round{}`：ラウンドのメタ情報（id / date / course / layout / partners / parTotal / pars / mantras / events / review / memo / photo / totals）。
   - **`round.pars`**：ラウンド自身が Par 構成を持つ（未登録コースの MD インポート対応）。Par の解決は `parFromRound()` を使う。
   - **`round.tee`**：ラウンドのティー（フルバック/バック/レギュラー/フロント/レディース）。`COURSE_MASTER[course].yards[tee][section]` にティー別ヤーデージがあるコース（現状仙台クラシックのみ）はプレー画面のホールバーに距離を表示（`holeYards()`）。MD frontmatter `tee:` で往復。
+- **`round.others`**：同伴者スコア（`[{name, rels:[18]}]`、relはパー基準・未入力はnull）。`round.partners` のカンマ区切り名から `syncOthers()` が自動生成（スコアは名前でマッチして保持）。プレー画面のプレーヤータブ（`#plTabs`、`curP`、`pickPlayer()`）で切替入力（スコアのみ。パット/OB/メモは自分専用で `body.pGuest` で非表示）。スコアマップ・スコアカード表（`sideTable` のゲスト行）・MD（スコアカード表に名前行、`parseRoundMd` で往復）に反映。CSVには含まれない。
 - **`round.photo`**：スコアカード写真（縮小圧縮した dataURL）。まるごとバックアップに含まれる。MD/CSV には含まれない。
 - `PARS[]`：現在編集中の18ホールのパー配列（`currentPars()` / `parFromRound()`）。
 - `COURSE_MASTER`：コース定義マスタ。`{courses:{セクション名:[9つのパー]}, layouts:{表示名:[前半, 後半]}}`。コース追加はここを編集。
