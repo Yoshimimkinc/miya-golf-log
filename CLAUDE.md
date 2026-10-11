@@ -21,6 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 画面遷移
 10の `<section class="screen">`（`home` / `start` / `play` / `bulk` / `done` / `summary` / `stats` / `notes` / `manage` / `courses`）を `show(id)` で切り替える SPA 風構成。実ルーティングはなく `active` クラスの付け替えだけ。
+ホーム画面下部には固定ドック（`#dock`）：中央の丸ボタンがラウンド開始、左右にスタッツ/履歴/コース/メニュー。`body.onHome` クラスで表示制御（ホーム以外は非表示）。Win95テーマ時はタスクバー見た目に自動切替。「最新版に更新」ボタンはデータ管理モーダル内。
 加えてボトムシート型モーダルが3つ：`dataModal`（データ管理）／`playModal`（プレー中メニュー）／`photoModal`（スコアカード写真拡大）。
 
 ### 2つの入力モードと統一データモデル
