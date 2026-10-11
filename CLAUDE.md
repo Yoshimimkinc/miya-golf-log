@@ -32,6 +32,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### 中心となるデータ構造（すべてグローバル変数）
 - `holes[]`：18要素。各ホール = `{rel, putts, ob, pen, entered, note}`。
   **重要：`rel` は「パー基準の相対スコア」**。実スコア = `PARS[i] + rel`。`entered` が false のホールは未入力扱い。
+- **終了予測時刻**：各ホール初入力時に `h.at`（epoch ms）を記録（`enterHole()`）。`round.startedAt` はラウンド開始時刻。`predictEta()` が直近ペース（2〜30分の間隔のみ採用・最大6区間平均、昼休憩など30分超は除外、データ不足時は14分/H）で残りホールを外挿し、ペース行に「終了 HH:MM頃」を表示。`at` はバックアップに含まれMD/CSVには出ない。
 - `round{}`：ラウンドのメタ情報（id / date / course / layout / partners / parTotal / pars / mantras / events / review / memo / photo / totals）。
   - **`round.pars`**：ラウンド自身が Par 構成を持つ（未登録コースの MD インポート対応）。Par の解決は `parFromRound()` を使う。
   - **`round.tee`**：ラウンドのティー（フルバック/バック/レギュラー/フロント/レディース）。`COURSE_MASTER[course].yards[tee][section]` にティー別ヤーデージがあるコース（現状仙台クラシックのみ）はプレー画面のホールバーに距離を表示（`holeYards()`）。MD frontmatter `tee:` で往復。
