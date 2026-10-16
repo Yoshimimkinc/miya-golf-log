@@ -40,7 +40,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **`round.photo`**：スコアカード写真（縮小圧縮した dataURL）。まるごとバックアップに含まれる。MD/CSV には含まれない。
 - `PARS[]`：現在編集中の18ホールのパー配列（`currentPars()` / `parFromRound()`）。
 - `COURSE_MASTER`：コース定義マスタ。`{courses:{セクション名:[9つのパー]}, layouts:{表示名:[前半, 後半]}}`。コース追加はここを編集。
-  登録済み：甲斐ヒルズ / 葛城 / 富嶽 / ホロン / リバー富士 / 菊川 / SIAM CC BANGKOK / SIAM CC PLANTATION（TAPIOCA/PINEAPPLE、SUGAR CANE未登録） / SIAM CC ROLLING HILLS / 仙台クラシック / その他Par72。
+  登録済み：甲斐ヒルズ / 葛城 / 富嶽 / ホロン / リバー富士 / 菊川 / SIAM CC BANGKOK / SIAM CC PLANTATION（TAPIOCA/PINEAPPLE、SUGAR CANE未登録） / SIAM CC ROLLING HILLS / 仙台クラシック / 広島カンツリー八本松（バック/レギュラーのヤーデージ・HCP入りtips） / その他Par72。
 - `HOLE_TIPS`：コース×セクション×ホールごとの攻略コメント（なければパー別の汎用文言）。
 - `BASE_MANTRAS` / `EVENT_ITEMS`：マントラ初期値・イベントタグの選択肢。
 
