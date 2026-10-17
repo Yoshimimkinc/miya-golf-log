@@ -21,11 +21,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 画面遷移
 10の `<section class="screen">`（`home` / `start` / `play` / `bulk` / `done` / `summary` / `stats` / `notes` / `manage` / `courses`）を `show(id)` で切り替える SPA 風構成。実ルーティングはなく `active` クラスの付け替えだけ。
-画面下部に固定ドック（`#dock`）＝タブバー：ホーム/スタッツ/中央の丸ボタン（ラウンド開始）/履歴/メニュー。`home`・`stats`・`manage`・`courses` の4画面で常駐（`body.dockOn` で制御）し、現在タブをハイライト（`show()` が `data-s` で切替）。ドック常駐画面では戻るボタン・右下ホームボタンは非表示。Win95テーマ時はタスクバー見た目（アクティブタブは押し込み表示）。「最新版に更新」ボタンとコース一覧はデータ管理モーダル内。`start`・`play` にも専用の固定ドック（`.sdock`＝戻る/入力開始/スコア表で、`.pdock`＝前ホール/スコア表/次へ/距離表/メニュー。`body.onStart`/`body.onPlay`）。プレー画面の18H俯瞰は数字付きミニスコアマップ（`buildScMap()`、`.scmap`）。
+画面下部に固定ドック（`#dock`）＝タブバー：ホーム/スタッツ/中央の丸ボタン（ラウンド開始）/履歴/メニュー。`home`・`stats`・`manage`・`courses` の4画面で常駐（`body.dockOn` で制御）し、現在タブをハイライト（`show()` が `data-s` で切替）。ドック常駐画面では戻るボタン・右下ホームボタンは非表示。Win95テーマ時はタスクバー見た目（アクティブタブは押し込み表示）。「最新版に更新」ボタンとコース一覧はデータ管理モーダル内。`start`・`play` にも専用の固定ドック（`.sdock`＝戻る/入力開始/スコア表で、`.pdock`＝前ホール/スコア表/次へ/距離表/メニュー。`body.onStart`/`body.onPlay`）。プレー画面の俯瞰はカートナビ風ハーフボード（`buildScMap()`、`.hb`）：行=プレーヤー全員（自分の行を強調）、列=現在ハーフの9ホール＋「計」（ハーフの実打数合計）。現在ホール列を金色ハイライト、ホール番号タップでジャンプ、右下「○○を見る ▸」（`toggleHalf()`、`hbHalf`）で他ハーフを一時表示（再レンダーで現在ハーフに戻る）。
 加えてボトムシート型モーダルが3つ：`dataModal`（データ管理）／`playModal`（プレー中メニュー）／`photoModal`（スコアカード写真拡大）。
 
 ### 2つの入力モードと統一データモデル
-- **ライブ入力**（`play`）：1画面・1タップ設計。スコアは数字グリッド（イーグル〜+5、スコアカード記号◎○△□■付き）、パットは0〜5、OB/1ペナ、事件簿メモ。ホール看板風バー＋攻略メモ折りたたみ＋**同ホールの過去事件簿表示**（`pastHoleNotes()`）。
+- **ライブ入力**（`play`）：カートナビ風の全員列ボード（`#mpBoard`、`renderMpBoard()`）。自分列（幅広・緑）はスコア＋パットのステッパー、同伴者列はスコアのみ。未入力時は値にパーを淡色表示し、値タップ=パー確定（`mpTap`）、＋/−は表示値±1（`mpChg`/`mpPutt`。スコア確定時パットは2が自動初期値）。各列に判定チップ（◎○−△□■＋ラベル、スコア色準拠）。OB/1ペナ/FW/事件簿メモは自分専用でボード下。ホール看板風バー＋攻略メモ折りたたみ＋**同ホールの過去事件簿表示**（`pastHoleNotes()`）。
 - **スコア編集**（`bulk`）：基本情報（日付=ネイティブdate入力・同伴者・天気）＋スコア表のマスタップ→`qeModal`で修正（確認画面・ラウンド詳細と同一動線）＋事件簿まとめ入力への入口。イベントタグ・振り返りもここ。旧「一括テキスト入力（全18Hまとめ打ち等）」はv7.0で廃止。
 - 両モードは同じ `holes[]` 配列を編集する。`round.inputMode` は常に `'hybrid'`。相互に行き来でき、データは共有される。
 
@@ -36,7 +36,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `round{}`：ラウンドのメタ情報（id / date / course / layout / partners / parTotal / pars / mantras / events / review / memo / photo / totals）。
   - **`round.pars`**：ラウンド自身が Par 構成を持つ（未登録コースの MD インポート対応）。Par の解決は `parFromRound()` を使う。
   - **`round.tee`**：ラウンドのティー（フルバック/バック/レギュラー/フロント/レディース）。`COURSE_MASTER[course].yards[tee][section]` にティー別ヤーデージがあるコース（現状仙台クラシックのみ）はプレー画面のホールバーに距離を表示（`holeYards()`）。MD frontmatter `tee:` で往復。
-- **`round.others`**：同伴者スコア（`[{name, rels:[18]}]`、relはパー基準・未入力はnull）。`round.partners` のカンマ区切り名から `syncOthers()` が自動生成（スコアは名前でマッチして保持）。プレー画面のプレーヤータブ（`#plTabs`、`curP`、`pickPlayer()`）で切替入力（スコアのみ。パット/OB/メモは自分専用で `body.pGuest` で非表示）。スコアマップ・スコアカード表（`sideTable` のゲスト行）・MD（スコアカード表に名前行、`parseRoundMd` で往復）に反映。CSVには含まれない。
+- **`round.others`**：同伴者スコア（`[{name, rels:[18]}]`、relはパー基準・未入力はnull）。`round.partners` のカンマ区切り名から `syncOthers()` が自動生成（スコアは名前でマッチして保持）。プレー画面では全員列ボード（`#mpBoard`）で同時入力（同伴者はスコアのみ）。ハーフボード・スコアカード表（`sideTable` のゲスト行）・MD（スコアカード表に名前行、`parseRoundMd` で往復）に反映。CSVには含まれない。
 - **`round.photo`**：スコアカード写真（縮小圧縮した dataURL）。まるごとバックアップに含まれる。MD/CSV には含まれない。
 - `PARS[]`：現在編集中の18ホールのパー配列（`currentPars()` / `parFromRound()`）。
 - `COURSE_MASTER`：コース定義マスタ。`{courses:{セクション名:[9つのパー]}, layouts:{表示名:[前半, 後半]}}`。コース追加はここを編集。
