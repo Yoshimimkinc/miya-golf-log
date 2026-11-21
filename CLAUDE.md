@@ -52,6 +52,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `miyaGolfLastBackup`：最終バックアップ日時。未バックアップ検知の警告バナー（`bkWarn`）に使う。
 - `miyaGolfAvgWindow`：平均スタッツの集計範囲（`5` / `10` / `25` / `year`）。ホームのタイルとスタッツ画面が連動。
 - `miyaGolfTheme`：画面テーマ（`std` / `win95`）。データ管理の「画面テーマ」で切替。`body.win95` クラスでCSSオーバーライド。
+- `miyaGolfSound`：効果音（`on`既定 / `off`）。Web Audioで合成（音源ファイルなし）：ボタン・チップのタップ=スイング音 `sfxSwing()`（captureのclickリスナー、`data-snd="none"`で除外）、「次へ」`nextHole()`=カップイン音 `sfxCup()`。データ管理・プレー中メニューでON/OFF。
 - `miyaGolfClubs`：番手別距離表（`{番手:キャリーyd}`）。データ管理／プレー中メニューの「番手別距離表」（`clubModal`）で編集。ヤーデージ登録済みコースのPar3ではホールバーに推奨番手を表示（`clubFor()`）。
 
 ### 後方互換の要：`ensureH()` と `normalizeRound()`
